@@ -22,5 +22,17 @@ public class Salas {
 		}
 		return 4;
 	}
+	public boolean shieldRoom(Scanner sc) {
+		System.out.printf("\nVocê adentra uma sala com um escudo em seu centro\n");
+		System.out.printf("Deseja pegar o escudo?\n");
+		char key = sc.next().charAt(0);
+		if (key == 'y') {
+			return true;
+		}
+		return false;
+		
+		
+		
+	}
 }
 //System.out.printf("");
