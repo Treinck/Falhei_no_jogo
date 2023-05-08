@@ -1,15 +1,16 @@
 package principal;
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class Main {
 	public static void main(String []args) {
 		Main main = new Main();
 		Salas room = new Salas();
 		Jogador player = new Jogador();
-		Espada swd1 = new Espada(6);
-		Espada swd2 = new Espada(11);
-		Espada swd3 = new Espada(21);
+		Itens swd1 = new Itens(6);
+		Itens swd2 = new Itens(11);
+		Itens swd3 = new Itens(21);
 		Scanner sc = new Scanner(System.in);
 		System.out.printf("Qual o seu nome?\n");
 		String name = sc.next();
@@ -19,23 +20,40 @@ public class Main {
 			char key = sc.next().charAt(0);
 			main.printLine();
 			if (key == 'w') {
-				int swd = room.swordRoom(sc);
-				if (swd == 1) {
-					player.setDMG(swd1.dmg);
-					System.out.printf("\nVocê se sente meia-boca.\n");
+				//int x = 1;
+				int x = main.chooseRoom();
+				if (x == 0) {
+					int swd = room.swordRoom(sc);
+					if (swd == 1) {
+						player.setDMG(swd1.dmg);
+						System.out.printf("\nVocê se sente meia-boca.\n");
+					}
+					else if (swd == 2) {
+						player.setDMG(swd2.dmg);
+						System.out.printf("\nVocê se sente mais forte!\n");
+					}
+					else if (swd == 3) {
+						player.setDMG(swd3.dmg);
+						System.out.printf("\nVocê sente como se o mundo fosse seu!!!\n");
+					}
+					else {
+						System.out.printf("\nVocê não pegou a espada.\n");
+					}
+					main.printLine();
 				}
-				else if (swd == 2) {
-					player.setDMG(swd2.dmg);
-					System.out.printf("\nVocê se sente mais forte!\n");
+				if (x <= 1) {
+					boolean y = room.shieldRoom(sc);
+					if (y && player.shield) {
+						System.out.printf("\nVocê já tem um escudo.\n");
+						continue;
+					}else if (y) {
+						System.out.printf("\nVocê pegou o escudo!\n");
+						player.setShield(y);
+					}else {
+						System.out.printf("\nVocê não pegou o escudo...\n");
+						continue;
+					}
 				}
-				else if (swd == 3) {
-					player.setDMG(swd3.dmg);
-					System.out.printf("\nVocê sente como se o mundo fosse seu!!!\n");
-				}
-				else {
-					System.out.printf("\nVocê não pegou a espada.\n");
-				}
-				main.printLine();
 			}
 			if (key == 's') {
 				System.out.printf("\nDeseja sair do jogo?(Sim y/Não n)\n");
@@ -59,6 +77,11 @@ public class Main {
 		System.out.printf("\n");
 		System.out.printf(line.repeat(14));
 		System.out.printf("\n");
+	}
+	public int chooseRoom() {
+		Random rng = new Random();
+		int x = rng.nextInt(2);
+		return x;
 	}
 }
 //System.out.printf("");
